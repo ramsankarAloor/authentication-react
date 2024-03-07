@@ -1,11 +1,13 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import classes from "./AuthForm.module.css";
+import AuthContext from "../../store/auth-context";
 
 const apiKey = process.env.REACT_APP_FIREBASE_API_KEY;
 
 const AuthForm = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
+  const authCtx = useContext(AuthContext)
 
   const [isLogin, setIsLogin] = useState(true);
 
@@ -41,7 +43,7 @@ const AuthForm = () => {
         }
 
         const data = await response.json();
-        console.log(data);
+        authCtx.login(data.idToken) // on login, set the token in the context
       } catch (error) {
         console.log(error.message);
       }
