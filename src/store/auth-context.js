@@ -18,6 +18,9 @@ export const AuthContextProvider=props=>{
     function loginHandler(t){
         localStorage.setItem('token', t);
         setToken(t)
+        setTimeout(()=>{
+            logoutHandler()
+        }, 5*60*1000)
     }
 
     function logoutHandler(){
