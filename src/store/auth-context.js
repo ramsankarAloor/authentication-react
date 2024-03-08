@@ -9,6 +9,8 @@ const AuthContext = React.createContext({
 
 export const AuthContextProvider=props=>{
     const initialTokenValue = localStorage.getItem('token')
+    // we just needed this variable other than useEffect to initilize the token
+    // because localstorage operations are synchronous.
     const [token, setToken] = useState(initialTokenValue)
 
     const isLoggedIn = !!token
