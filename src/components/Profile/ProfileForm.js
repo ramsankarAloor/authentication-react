@@ -12,17 +12,19 @@ const ProfileForm = () => {
     e.preventDefault()
     const enteredNewPassword = newPasswordRef.current.value
 
-    await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:update?key=${apiKey}`,{
+    const resp = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:update?key=${apiKey}`,{
       method: 'POST',
       body: JSON.stringify({
         idToken: authCtx.token,
         password: enteredNewPassword,
+        returnSecureToken: true
       }),
       headers: {
         'Content-Type': 'application/json'
       }
     })
-
+    const data =await resp.json()
+    console.log(data)
     newPasswordRef.current.value = ''
   }
 
