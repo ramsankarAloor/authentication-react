@@ -1,13 +1,16 @@
 import { useState, useRef, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import classes from "./AuthForm.module.css";
 import AuthContext from "../../store/auth-context";
 
 const apiKey = process.env.REACT_APP_FIREBASE_API_KEY;
 
 const AuthForm = () => {
+  const history = useHistory();
+
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
-  const authCtx = useContext(AuthContext)
+  const authCtx = useContext(AuthContext);
 
   const [isLogin, setIsLogin] = useState(true);
 
@@ -38,12 +41,14 @@ const AuthForm = () => {
         );
 
         if (!response.ok) {
-          const data = await response.json()
-          alert(data.error.message)
+          const data = await response.json();
+          alert(data.error.message);
         }
 
         const data = await response.json();
-        authCtx.login(data.idToken) // on login, set the token in the context
+        authCtx.login(data.idToken); // on login, set the token in the context
+
+        history.replace("/");  // when .replace() is used,user cannot use backbutton to go to prev page, to use backbutton we need to use the .push()
       } catch (error) {
         console.log(error.message);
       }
@@ -64,12 +69,11 @@ const AuthForm = () => {
           }
         );
         if (!response.ok) {
-          const data = await response.json()
-          alert(data.error.message)
+          const data = await response.json();
+          alert(data.error.message);
         }
-
       } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
       }
     }
 
